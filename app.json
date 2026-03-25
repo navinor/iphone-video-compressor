@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "temp-app",
-    "slug": "temp-app",
+    "name": "Video Compressor",
+    "slug": "video-compressor",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -12,7 +12,16 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.warhax.videocompressor",
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "This app needs access to your photo library to select videos for compression.",
+        "NSPhotoLibraryAddUsageDescription": "This app needs permission to save compressed videos to your photo library.",
+        "NSPhotoLibraryFullAccessUsageDescription": "Full photo library access is required for batch video processing.",
+        "UIBackgroundModes": [
+          "processing"
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -21,10 +30,15 @@
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.warhax.videocompressor"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "./src/native/BackgroundTaskPlugin/withBackgroundTask.js",
+      "expo-sharing"
+    ]
   }
 }
