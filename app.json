@@ -19,8 +19,10 @@
         "NSPhotoLibraryAddUsageDescription": "This app needs permission to save compressed videos to your photo library.",
         "NSPhotoLibraryFullAccessUsageDescription": "Full photo library access is required for batch video processing.",
         "UIBackgroundModes": [
+          "processing",
           "processing"
-        ]
+        ],
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
@@ -39,6 +41,11 @@
     "plugins": [
       "./src/native/BackgroundTaskPlugin/withBackgroundTask.js",
       "expo-sharing"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "7bd90efc-a44a-4970-bc5a-8742e29cd0e2"
+      }
+    }
   }
 }
