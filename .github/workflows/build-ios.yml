@@ -1,0 +1,53 @@
+name: Build iOS (Simulator)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:          # Manual trigger from GitHub UI
+
+jobs:
+  build:
+    name: Build iOS Simulator App
+    runs-on: macos-latest     # Free for public repos; 10x minute multiplier for private
+    timeout-minutes: 60
+
+    steps:
+      # ── Checkout ──────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── Setup Node ────────────────────────────────────────────
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      # ── Install dependencies ──────────────────────────────────
+      - name: Install npm dependencies
+        run: npm ci
+
+      # ── Setup Expo & EAS CLI ──────────────────────────────────
+      - name: Setup Expo
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      # ── Build iOS (.ipa) ──────────────────────────────────────
+      - name: Build iOS App (.ipa)
+        run: |
+          npx eas-cli build \
+            --platform ios \
+            --profile preview \
+            --local \
+            --non-interactive \
+            --output ./build/VideoCompressor.ipa
+
+      # ── Upload artifact ───────────────────────────────────────
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-ipa-build
+          path: ./build/VideoCompressor.ipa
+          retention-days: 14
